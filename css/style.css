@@ -1,0 +1,55 @@
+body{
+	font-family: 'Press Start 2P', cursive;
+	text-align: center;
+	background-image: url("../images/background.jpg");
+	color:white;
+    cursor: url("../images/cursor.png"), auto;
+
+}
+
+/*wraps whole board*/
+.boardwrap{
+    margin: 0 auto;
+	width: 440px;
+}
+/*square style*/
+.board{
+	float:left;
+	font-size: 18pt;
+	width: 140px;
+	height: 140px;
+	border-width: 1px;
+	border-color: white;
+	border-style: dotted;
+}
+
+/*location for scores*/
+#p1{
+	float: left;
+}
+#p2{
+	float: right;
+}
+
+.clearfix{
+	clear: both;
+	border-bottom-style: dotted;
+}
+
+/*X and O images*/
+.x{
+	background-image: url("../images/X2.png");
+	background-repeat: no-repeat;
+	background-position: center; 	
+}
+
+.o{
+	background-image: url("../images/O2.png");
+	background-repeat: no-repeat;
+	background-position: center; 
+
+}
+
+.clearfix2{
+	clear: both;
+}
