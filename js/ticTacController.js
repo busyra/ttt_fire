@@ -24,6 +24,7 @@ angular
 		//message for turn and winner
 		self.board.message=self.board.turn+ "\'s turn";
 		self.board.squares=[];
+		self.board.creditleft = 5;
 		//creating squares for board
 		for (var i = 0; i< 9; i++){
 			self.board.squares.push({x: false, o: false});
@@ -35,9 +36,9 @@ angular
 
 		// links up page to firebase
 	 	function board(){
- 		var ref= new Firebase("https://bushttt.firebaseio.com/")
-		var getBoard = $firebaseObject(ref);
-		return getBoard;
+	 		var ref= new Firebase("https://bushttt.firebaseio.com/")
+			var getBoard = $firebaseObject(ref);
+			return getBoard;
  		}
  		/*function to run once player chooses space
  		will check if space is already taken or not and check if anyone has won*/
@@ -49,7 +50,12 @@ angular
 		 	// console.log(self.board.squares[i].o);
 
 		 	// checks if square is already taken
-		 	if (self.board.squares[i].x === true || self.board.squares[i].o === true){
+		 	if (self.board.creditleft <= 0){
+		 		self.board.message="You need to add more credit. Please give Bush 0.25 USD";
+		 		alert("You need to add more credit. Please give Bush 0.25 USD");
+		 		return;
+		 	}
+		 	else if (self.board.squares[i].x === true || self.board.squares[i].o === true){
 		 		alert("Please choose another box") ;
 		 	}
 		 	// determines if player 1 
@@ -82,7 +88,7 @@ angular
  		function getWinner(){
 
  			self.board.counter=self.board.counter+1;
- 			console.log("winner");
+ 			// console.log("winner");
  			if(
 		       ((self.board.squares[0].x === true) && (self.board.squares[1].x === true) && (self.board.squares[2].x === true)) 
 		       || ((self.board.squares[3].x === true) && (self.board.squares[4].x=== true) && (self.board.squares[5].x === true)) 
@@ -98,13 +104,16 @@ angular
 						alert(self.board.winner+ " has invaded "+self.board.turn+"!");
 						self.board.message = self.board.winner+ " has invaded "+self.board.turn+"! It's the loser's turn now";
 						self.board.player1wins = self.board.player1wins+1;
+						self.board.creditleft = self.board.creditleft -1;
 						self.board.$save();
 						for (var c = 0 ; c < 9 ; c++){
 				        	self.board.squares[c].x = false;
 				        	self.board.squares[c].o = false;
+				        	
 				        	self.board.$save();
 				        }
 				     },50)
+					
 					self.board.counter=0;
 					self.board.$save();
 					return;
@@ -125,6 +134,7 @@ angular
 						alert(self.board.winner+ " has invaded "+self.board.turn+"!");
 						self.board.message = self.board.winner+ " has invaded "+self.board.turn+"! It's the loser's turn now";
 						self.board.player2wins = self.board.player2wins+1;
+						self.board.creditleft = self.board.creditleft - 1;
 						self.board.$save();
 						for (var c = 0 ; c < 9 ; c++){
 				        	self.board.squares[c].x = false;
@@ -132,6 +142,7 @@ angular
 				        	self.board.$save();
 				        }
 				     },50)
+					
 					self.board.counter=0;
 					self.board.$save();
 					return;
@@ -141,7 +152,7 @@ angular
 					setTimeout(function(){
 						alert("NOBODY WINS");
 						self.board.message = "It was a tie and it is " + self.board.turn +"\'s turn"
-						self.board.player2wins = self.board.player2wins + 1;
+						self.board.creditleft = self.board.creditleft - 1;
 						self.board.$save();
 						for (var c = 0 ; c < 9 ; c++){
 				        	self.board.squares[c].x = false;
@@ -149,12 +160,11 @@ angular
 				        	self.board.$save();
 				        }
 				     },50)
+					
 					self.board.counter=0;
 					self.board.$save();
 					return;
 
 				}
-
-				
 		}
 	}

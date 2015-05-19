@@ -51,5 +51,16 @@ body{
 }
 
 .clearfix2{
+
+	height: 40px;
 	clear: both;
+	border-bottom-style: dotted;
 }
+
+#credits{
+	float:right;
+}
+/*#creditbutton{
+	width: 140px;
+	height: 40px;
+}*/
